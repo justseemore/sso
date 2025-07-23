@@ -160,10 +160,7 @@ func (s *UserService) UpdateUserProfile(userID uint, profile map[string]interfac
 	}
 
 	// 更新用户自定义属性
-	err = user.SetProfile(profile)
-	if err != nil {
-		return err
-	}
+	user.SetUserAttributes(profile)
 
 	// 更新用户
 	user.UpdatedAt = time.Now()

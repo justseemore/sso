@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"time"
+	"encoding/json"
 
 	"github.com/justseemore/sso/internal/models"
 	"github.com/justseemore/sso/internal/repositories"
