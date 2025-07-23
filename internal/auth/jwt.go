@@ -1,6 +1,8 @@
 package auth
 
 import (
+	"crypto/rand"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"time"
@@ -97,4 +99,14 @@ func ValidateToken(tokenString string) (*Claims, error) {
 	}
 
 	return claims, nil
+}
+
+// GenerateRandomString 生成指定长度的随机字符串
+func GenerateRandomString(length int) (string, error) {
+	b := make([]byte, length/2)
+	_, err := rand.Read(b)
+	if err != nil {
+		return "", err
+	}
+	return hex.EncodeToString(b), nil
 }

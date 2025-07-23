@@ -15,6 +15,8 @@ import (
 	"github.com/joho/godotenv"
 )
 
+
+
 func main() {
 	// 加载环境变量
 	if err := godotenv.Load(); err != nil {
@@ -33,7 +35,8 @@ func main() {
 		sqlDB, _ := db.DB()
 		sqlDB.Close()
 	}()
-
+     // 在database初始化后添加
+    utils.InitRedis()
 	// 初始化视图引擎
 	viewsEngine := html.New("./web/views", ".html")
 

@@ -169,18 +169,14 @@ func (c *RoleController) RemovePermission(ctx *fiber.Ctx) error {
 		})
 	}
 
-	type PermissionInput struct {
-		PermissionID uint `json:"permission_id"`
-	}
-
-	input := new(PermissionInput)
-	if err := ctx.BodyParser(input); err != nil {
+	permissionID, err := strconv.ParseUint(ctx.Params("permissionId"), 10, 32)
+	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": "无法解析请求体",
+			"error": "无效的权限ID",
 		})
 	}
 
-	if err := c.roleService.RemovePermission(uint(roleID), input.PermissionID); err != nil {
+	if err := c.roleService.RemovePermission(uint(roleID), uint(permissionID)); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": err.Error(),
 		})

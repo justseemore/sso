@@ -71,6 +71,6 @@ func (r *RoleRepository) RemovePermission(roleID, permissionID uint) error {
 
 func (r *RoleRepository) GetRolePermissions(roleID uint) ([]models.Permission, error) {
 	var permissions []models.Permission
-	err := r.DB.Model(&models.Role{ID: roleID}).Association("Permissions").Find(&permissions)
+	err := r.DB.Model(&models.Role{Base: models.Base{ID: roleID}}).Association("Permissions").Find(&permissions)
 	return permissions, err
 }

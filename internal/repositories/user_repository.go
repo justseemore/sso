@@ -81,3 +81,19 @@ func (r *UserRepository) AssignRole(userID, roleID uint) error {
 func (r *UserRepository) RemoveRole(userID, roleID uint) error {
 	return r.DB.Where("user_id = ? AND role_id = ?", userID, roleID).Delete(&models.UserRole{}).Error
 }
+
+// GetUserRoles 获取用户的所有角色
+func (r *UserRepository) GetUserRoles(userID uint) ([]models.Role, error) {
+	var roles []models.Role
+
+	// 使用连接查询获取用户的角色
+	err := r.DB.Table("roles").Select("roles.*").Joins(
+		"JOIN user_roles ON user_roles.role_id = roles.id").Where(
+		"user_roles.user_id = ?", userID).Scan(&roles).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return roles, nil
+}

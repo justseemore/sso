@@ -2,7 +2,7 @@ package routes
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/template/html/v2"
+	_ "github.com/gofiber/template/html/v2"
 	"github.com/justseemore/sso/internal/controllers"
 	"github.com/justseemore/sso/internal/middlewares"
 )

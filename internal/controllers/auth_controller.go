@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/justseemore/sso/internal/services"
+	"strings"
 )
 
 type AuthController struct {
@@ -39,7 +40,14 @@ func (c *AuthController) Authorize(ctx *fiber.Ctx) error {
 		userID := ctx.Locals("userID")
 		if userID != nil {
 			// 生成授权码
-			code, err := c.authService.AuthorizeUser(userID.(uint), clientID, scope)
+			// 将 scope 字符串转换为字符串切片
+			var scopes []string
+			if scope != "" {
+				// 如果 scope 包含空格，则按空格分割
+				scopes = strings.Split(scope, " ")
+			}
+
+			code, err := c.authService.AuthorizeUser(userID.(uint), clientID, scopes)
 			if err != nil {
 				return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 					"error":             "server_error",
